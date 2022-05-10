@@ -1,0 +1,14 @@
+<binary-tree>
+  <root value = "15">
+    <left-subtree value = "10">
+      <left-subtree value = "8">
+      </left-subtree>
+      <right-subtree value = "12">
+      </right-subtree>
+    </left-subtree>
+    <right-subtree value = "20">
+      <left-subtree value = "19">
+      </left-subtree>
+    </right-subtree>
+  </root>
+</binary-tree>
