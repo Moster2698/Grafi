@@ -15,7 +15,7 @@ public class GrafoOrientato extends Grafo {
 		super(grafo);
 	}
 	@Override
-	public void linkNode(Nodo nodeParent, Nodo nodeToAdd,int peso) {
+	public void aggiungiArco(Nodo nodeParent, Nodo nodeToAdd,int peso) {
 		if(nodeParent==null || nodeToAdd ==null) {
 			throw new IllegalArgumentException("Uno dei due valori inseriti è nullo");
 		}
@@ -26,7 +26,7 @@ public class GrafoOrientato extends Grafo {
 			throw new IllegalArgumentException("Il grafo non contiene il nodo "+ nodeParent);
 		if(!grafo.containsKey(nodeToAdd))
 			throw new IllegalArgumentException("Il grafo non contiene il nodo "+ nodeToAdd);
-		if(!grafo.get(nodeParent).contains(nodeToAdd))
+		if(!grafo.get(nodeParent).contains(new Arco(nodeToAdd,peso)))
 		{
 			links++;
 			grafo.get(nodeParent).add(new Arco(nodeToAdd,peso));
@@ -34,11 +34,11 @@ public class GrafoOrientato extends Grafo {
 			
 		}
 	}
-	public void linkNode(Nodo sorgente, Nodo destinazione) {
-		linkNode(sorgente, destinazione,0);
+	public void aggiungiArco(Nodo sorgente, Nodo destinazione) {
+		aggiungiArco(sorgente, destinazione,0);
 	}
 	
-	public void RimuoviCollegamenti() {
+	public void rimuoviCollegamenti() {
 		for(Entry<Nodo,LinkedList<Arco>> entry : grafo.entrySet()) {
 			entry.getValue().clear();
 		}

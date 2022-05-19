@@ -9,7 +9,7 @@ public class GrafoNonOrientato extends Grafo {
 		super();
 	}
 	@Override
-	public void linkNode(Nodo nodeParent, Nodo nodeToAdd,int peso) {
+	public void aggiungiArco(Nodo nodeParent, Nodo nodeToAdd,int peso) {
 		if(nodeParent==null || nodeToAdd ==null) {
 			throw new IllegalArgumentException("Uno dei due valori inseriti è nullo");
 		}
@@ -23,7 +23,7 @@ public class GrafoNonOrientato extends Grafo {
 			grafo.get(nodeToAdd).add(new Arco(nodeParent,peso));
 		}
 	}
-	public void RimuoviCollegamenti() {
+	public void rimuoviCollegamenti() {
 		for(Entry<Nodo,LinkedList<Arco>> entry : grafo.entrySet()) {
 			entry.getValue().clear();
 		}

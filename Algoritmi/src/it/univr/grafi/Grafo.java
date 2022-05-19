@@ -30,8 +30,8 @@ public abstract class Grafo {
 
 		}
 	}
-	public abstract void linkNode(Nodo nodeParent,Nodo nodeToAdd,int peso);
-	public abstract void RimuoviCollegamenti();
+	public abstract void aggiungiArco(Nodo nodeParent,Nodo nodeToAdd,int peso);
+	public abstract void rimuoviCollegamenti();
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -45,14 +45,14 @@ public abstract class Grafo {
 		}
 		return sb.toString();
 	}
-	public void PrintCharachteristics() {
+	public void stampaVertici() {
 		for(Nodo nodo : vertici)
 			System.out.println(nodo);
 	}
 	public List<Nodo> getVertici(){
 		return vertici;
 	}
-	public boolean ContieneNodo(Nodo nodoDaCercare) {
+	public boolean contieneNodo(Nodo nodoDaCercare) {
 		return grafo.containsKey(nodoDaCercare);
 	}
 	public List<Nodo> getAdjLinkedList(Nodo n){
@@ -81,10 +81,10 @@ public abstract class Grafo {
 		for(int i=0;i<links;i++) {
 			Nodo u = vertici.get(random.nextInt(vertici.size()));
 			Nodo v = vertici.get(random.nextInt(vertici.size()));
-			linkNode(u, v,0);
+			aggiungiArco(u, v,0);
 		}
 	}
-	public void Transpose() {
+	public void trasponiGrafo() {
 		HashMap<Nodo, LinkedList<Arco>> transposedGraph = new HashMap<Nodo, LinkedList<Arco>>();
 		for(Entry<Nodo,LinkedList<Arco>> entry : grafo.entrySet()) {
 			for(Arco a : entry.getValue()) {

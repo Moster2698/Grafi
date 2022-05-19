@@ -3,7 +3,6 @@ package it.univr.grafi;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 import it.univr.Structures.MinHeap;
@@ -11,7 +10,7 @@ import it.univr.Structures.MinHeap;
  public class AlgoritmiElementari {
 
 	public static void  BFS(Grafo grafo,Nodo s) {
-		if(!grafo.ContieneNodo(s))
+		if(!grafo.contieneNodo(s))
 			throw new IllegalArgumentException("Il nodo inserito non è presente nel grafo");
 		List<Nodo> vertici = grafo.getVertici();
 		vertici.remove(s);
@@ -27,7 +26,6 @@ import it.univr.Structures.MinHeap;
 		coda.add(s);
 		while(!coda.isEmpty()) {
 			Nodo u = coda.poll();
-			System.out.println(u.getName());
 			for(Nodo v : grafo.getAdjLinkedList(u)) {
 				if(v.getColor().equals("white")) {
 					v.setColor("gray");
