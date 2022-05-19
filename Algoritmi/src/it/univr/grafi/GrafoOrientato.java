@@ -1,4 +1,4 @@
-package grafi;
+package it.univr.grafi;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -11,11 +11,11 @@ public class GrafoOrientato extends Grafo {
 		super();
 		links = 1;
 	}
-	public GrafoOrientato(HashMap<Nodo, LinkedList<Nodo>> grafo) {
+	public GrafoOrientato(HashMap<Nodo, LinkedList<Arco>> grafo) {
 		super(grafo);
 	}
 	@Override
-	public void linkNode(Nodo nodeParent, Nodo nodeToAdd) {
+	public void linkNode(Nodo nodeParent, Nodo nodeToAdd,int peso) {
 		if(nodeParent==null || nodeToAdd ==null) {
 			throw new IllegalArgumentException("Uno dei due valori inseriti è nullo");
 		}
@@ -29,13 +29,21 @@ public class GrafoOrientato extends Grafo {
 		if(!grafo.get(nodeParent).contains(nodeToAdd))
 		{
 			links++;
-			grafo.get(nodeParent).add(nodeToAdd);
+			grafo.get(nodeParent).add(new Arco(nodeToAdd,peso));
+		
+			
 		}
 	}
+	public void linkNode(Nodo sorgente, Nodo destinazione) {
+		linkNode(sorgente, destinazione,0);
+	}
+	
 	public void RimuoviCollegamenti() {
-		for(Entry<Nodo,LinkedList<Nodo>> entry : grafo.entrySet()) {
+		for(Entry<Nodo,LinkedList<Arco>> entry : grafo.entrySet()) {
 			entry.getValue().clear();
 		}
+		archi.clear();
+			
 		links=0;
 	}
 

@@ -1,4 +1,4 @@
-package grafi;
+package it.univr.grafi;
 
 public class Nodo implements Comparable<Nodo> {
 	private static int ID=0;
@@ -9,6 +9,8 @@ public class Nodo implements Comparable<Nodo> {
 	private String color;
 	private int distance;
 	private final int id;
+	//Utile per l'albero dei cammini minimi
+	public int key;
 	public Nodo(String name) {
 		id=ID++;
 		this.name = name;
@@ -69,6 +71,8 @@ public class Nodo implements Comparable<Nodo> {
 	}
 	@Override
 	public int compareTo(Nodo o) {
+		if(o==null)
+			return id;
 		return id - o.getID();
 	}
 	

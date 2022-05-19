@@ -1,8 +1,12 @@
-package grafi;
+package it.univr.grafi;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
+
+import it.univr.Structures.MinHeap;
 
  public class AlgoritmiElementari {
 
@@ -34,7 +38,6 @@ import java.util.Queue;
 			}
 			u.setColor("black");
 		}
-		
 	}
 	private static int TIME;
 	private static boolean vis[];
@@ -56,7 +59,6 @@ import java.util.Queue;
 			if(!vis[i])
 				return false;
 		}
-		System.out.println();
 		return true;
 	}
 	private static void DFSVisit(Nodo u,Grafo grafo) {
@@ -73,5 +75,43 @@ import java.util.Queue;
 		}
 		u.setColor("Black");
 		u.setFtime(TIME++);
+	}
+	public static void MstPrim(Grafo g,Nodo r){
+		MinHeap<Nodo> q = new MinHeap<Nodo>(g.getVertici().size() ,new Comparator<Nodo>() {	
+			@Override
+			public int compare(Nodo o1, Nodo o2) {
+				return o1.key - o2.key;
+			}
+		});
+		for(Nodo v : g.getVertici()) {
+			v.key = Integer.MAX_VALUE;
+			v.setNodeParent(null);
+			q.Insert(v);
+		}
+		r.key = 0;	
+		int somma=0;
+ 	//	MinHeap<Nodo> queue = new MinHeap<Nodo>(cmp,g.getVertici().toArray(new Nodo[g.getVertici().size()]));
+		while(!q.isEmpty()) {
+			System.out.println(q);
+			Nodo u  = q.ExtractMin();
+			List<Nodo> verticiAdiacenti = g.getAdjLinkedList(u);
+			for(Nodo v : verticiAdiacenti) {
+				int pesoArco = g.peso(u, v);
+				if(q.contains(v) && pesoArco < v.key) {
+					v.setNodeParent(u);
+					v.key=pesoArco;
+					q.DecreaseKey(q.indexOf(v), v);
+				}
+			}
+		}
+		for(Nodo n : g.getVertici())
+			somma+=n.key;
+		printMstPrim(g);
+		System.out.println(somma);
+	}
+	private static void printMstPrim(Grafo g) {
+		for(Nodo nodo : g.getVertici()) {
+			System.out.println(nodo + " parente : " + nodo.getParent());
+		}
 	}
 }
