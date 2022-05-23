@@ -16,7 +16,7 @@ public abstract class Grafo {
 		grafo = new HashMap<Nodo,LinkedList<Arco>>();
 		vertici = new LinkedList<Nodo>();
 		archi = new LinkedList<Arco>();
-	}
+	}	
 	public Grafo(HashMap<Nodo, LinkedList<Arco>> grafo) {
 		this.grafo = grafo;
 		vertici = new LinkedList<Nodo>(grafo.keySet());
@@ -31,17 +31,19 @@ public abstract class Grafo {
 		}
 	}
 	public abstract void aggiungiArco(Nodo nodeParent,Nodo nodeToAdd,int peso);
+	public abstract void aggiungiArco(Nodo parent,Arco a);
+	
 	public abstract void rimuoviCollegamenti();
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for(Entry<Nodo,LinkedList<Arco>> e : grafo.entrySet()) {
-			sb.append(e.getKey().getName());
 			//Se ci sono nodi adiacenti
 			if(!e.getValue().isEmpty()) {
-				sb.append("--->"+e.getValue());
+				sb.append(e.getValue());
+				sb.append("\n");
 			}
-			sb.append("\n");
+			
 		}
 		return sb.toString();
 	}
@@ -52,8 +54,26 @@ public abstract class Grafo {
 	public List<Nodo> getVertici(){
 		return vertici;
 	}
+	public Arco getArco(Nodo u,Nodo v) {
+		List<Arco> archi = grafo.get(u);
+		for(Arco a : archi) {
+			if(a.getDestinazione().equals(v))
+				return a;
+		}
+		return null;
+	}
+	public void rimuoviArco(Nodo u,Nodo v) {
+		if(grafo.containsKey(u)) {
+			Arco a = getArco(u, v);
+			grafo.get(u).remove(a);
+			archi.remove(a);
+		}
+	}
 	public boolean contieneNodo(Nodo nodoDaCercare) {
 		return grafo.containsKey(nodoDaCercare);
+	}
+	public List<Arco> getArchiAdiacenti(Nodo n){
+		return grafo.get(n);
 	}
 	public List<Nodo> getAdjLinkedList(Nodo n){
 		List<Arco> archiAdiacenti = grafo.get(n);
@@ -95,10 +115,12 @@ public abstract class Grafo {
 					 transposedGraph.put(nodoAdiacente,tmp);
 				}
 				tmp = transposedGraph.get(nodoAdiacente);
-				tmp.add(new Arco(nodoAdiacente,a.getPeso()));
+				tmp.add(new Arco(entry.getKey(),nodoAdiacente,a.getPeso()));
 			}
 		}
 		grafo = transposedGraph;
 	}
-
+	public List<Arco> getArchi(){
+		return archi;
+	}
 }

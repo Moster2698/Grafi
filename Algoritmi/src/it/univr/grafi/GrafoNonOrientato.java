@@ -17,16 +17,20 @@ public class GrafoNonOrientato extends Grafo {
 			throw new IllegalArgumentException("Il grafo non contiene il nodo "+ nodeParent);
 		if(!grafo.containsKey(nodeToAdd))
 			throw new IllegalArgumentException("Il grafo non contiene il nodo "+ nodeToAdd);
-		if(!grafo.get(nodeParent).contains(new Arco(nodeToAdd,peso)))
+		if(!grafo.get(nodeParent).contains(new Arco(nodeParent,nodeToAdd,peso)))
 		{
-			grafo.get(nodeParent).add(new Arco(nodeToAdd,peso));
-			grafo.get(nodeToAdd).add(new Arco(nodeParent,peso));
+			aggiungiArco(nodeParent, new Arco(nodeParent,nodeToAdd, peso));
+			aggiungiArco(nodeToAdd, new Arco(nodeToAdd,nodeParent,peso));
 		}
 	}
 	public void rimuoviCollegamenti() {
 		for(Entry<Nodo,LinkedList<Arco>> entry : grafo.entrySet()) {
 			entry.getValue().clear();
 		}
+	}
+	public void aggiungiArco(Nodo parent, Arco a) {
+		archi.add(a);
+		grafo.get(parent).add(a);
 	}
 
 }
