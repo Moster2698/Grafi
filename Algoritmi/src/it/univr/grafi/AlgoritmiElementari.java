@@ -88,7 +88,6 @@ import it.univr.Structures.MinHeap;
 				
 			n = n.getParent();
 		}
-		System.out.println(path);
 		return path;
 	}
 	private static int TIME;
@@ -161,7 +160,6 @@ import it.univr.Structures.MinHeap;
 			a.setFlusso(0);
 		}
 			Grafo grafoResiduo = creaReteResidua(g);
-			System.out.print(grafoResiduo);
 		for(Arco a : grafoResiduo.archi) {
 			a.setFlusso(0);
 			a.AggiornaCapacitaResidua();
@@ -177,39 +175,16 @@ import it.univr.Structures.MinHeap;
 				System.out.println(capacitaResidua);
 				for (Arco a : camminoAumentante.archi) {
 					if(g.archi.contains(a)) {
-						g.getArco(a.getSorgente(), a.getDestinazione()).setFlusso(a.getFlusso()+capacitaResidua);
-						a.setFlusso(a.getFlusso()-capacitaResidua);
-						a.AggiornaCapacitaResidua();
+						Arco uv = g.getArco(a.getSorgente(), a.getDestinazione());
+						uv.setFlusso(uv.getFlusso()+capacitaResidua);
+						a.setCapacitaResidua(a.getCapacitaResidua()-capacitaResidua);
 						Arco aReverse = grafoResiduo.getArco(a.getDestinazione(), a.getSorgente());
-						if(aReverse==null) {
-							aReverse = new Arco(a.getDestinazione(), a.getSorgente(), 0, a.getCapacita(), a.getFlusso()+2*capacitaResidua, 0);
-							aReverse.AggiornaCapacitaResidua();
-							grafoResiduo.aggiungiArco(a.getDestinazione(), aReverse);
-						}
-						else {
-							aReverse.setFlusso(a.getFlusso()+2*capacitaResidua);
-							aReverse.AggiornaCapacitaResidua();
-						}
-						if(a.getFlusso()<=0) {
-							grafoResiduo.rimuoviArco(a.getSorgente(), a.getDestinazione());
-						}
+						aReverse.setCapacitaResidua(aReverse.getCapacitaResidua()+capacitaResidua);
 					}
 					else {
+						Arco vu = g.getArco(a.getDestinazione(), a.getSorgente());
+						vu.setFlusso(vu.getFlusso()- capacitaResidua);
 						System.out.println("ciao");
-						Arco aReverse = grafoResiduo.getArco(a.getDestinazione(),a.getSorgente());
-						aReverse.setFlusso(aReverse.getFlusso()-capacitaResidua);
-						if(aReverse!=null) {
-							aReverse.setFlusso(aReverse.getFlusso()-capacitaResidua);
-							aReverse.AggiornaCapacitaResidua();
-							g.getArco(a.getDestinazione(), a.getSorgente()).setFlusso(aReverse.getFlusso());
-							a.setFlusso(a.getFlusso()+capacitaResidua);
-							if(aReverse.getFlusso()<=0) {
-								grafoResiduo.getRappresentazione().get(a.getDestinazione()).remove(aReverse);
-								grafoResiduo.archi.remove(aReverse);
-							}
-								
-						}
-						
 					}
 				}
 		}
@@ -219,19 +194,10 @@ import it.univr.Structures.MinHeap;
 		grafoResiduo.addNode(grafo.getVertici().toArray(new Nodo[grafo.getVertici().size()]));
 		for(Entry<Nodo,LinkedList<Arco>> adj : grafo.getRappresentazione().entrySet()) {
 			for(Arco arco : adj.getValue()) {
-				if(arco.getFlusso()==0) {
-					Arco a = new Arco(adj.getKey(),arco.getDestinazione(), arco.getPeso(), arco.getCapacita(),arco.getCapacita()- arco.getFlusso(),arco.getCapacita()-arco.getFlusso());
-					grafoResiduo.aggiungiArco(adj.getKey(), a);
-				}
-				else {
-					if(arco.getCapacita()-arco.getFlusso()!=0) {
-						Arco a = new Arco(adj.getKey(),arco.getDestinazione(), arco.getPeso(), arco.getCapacita(),arco.getCapacita()- arco.getFlusso(),arco.getCapacita()-arco.getFlusso());
-						grafoResiduo.aggiungiArco(adj.getKey(), a);
-					}
-					Arco aReverse = new Arco(arco.getDestinazione(), adj.getKey(),arco.getPeso(), arco.getCapacita(), arco.getFlusso(),arco.getFlusso());
-					grafoResiduo.aggiungiArco(arco.getDestinazione(), aReverse);
-				}
-				
+				Arco a = new Arco(adj.getKey(),arco.getDestinazione(),0,arco.getCapacita(),0,arco.getCapacita());
+				grafoResiduo.aggiungiArco(adj.getKey(), a);
+				Arco aReverse = new Arco(arco.getDestinazione(), adj.getKey(),arco.getPeso(), 0, 0,0);
+				grafoResiduo.aggiungiArco(arco.getDestinazione(), aReverse);
 			}
 		}
 		return grafoResiduo;
