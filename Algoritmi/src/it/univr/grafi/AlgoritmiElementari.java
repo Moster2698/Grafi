@@ -155,7 +155,8 @@ import it.univr.Structures.MinHeap;
 		}
 		printMstPrim(g);
 	}
-	public static void FordFulkerson(Grafo g, Nodo s, Nodo t) {
+	public static int FordFulkerson(Grafo g, Nodo s, Nodo t) {
+		int maxFlow=0;
 		for(Arco a : g.archi) {
 			a.setFlusso(0);
 		}
@@ -168,11 +169,11 @@ import it.univr.Structures.MinHeap;
 			while( (camminoAumentante = BfsPath(grafoResiduo, s,t)).getArchi().size()!=0) {
 				int capacitaResidua=Integer.MAX_VALUE;
 				for(Arco a : camminoAumentante.archi) {
-					if(a.getCapacita()<capacitaResidua) {
-						capacitaResidua = a.getCapacita();
+					if(a.getCapacitaResidua()<capacitaResidua) {
+						capacitaResidua = a.getCapacitaResidua();
 					}
 				}
-				System.out.println(capacitaResidua);
+				maxFlow+=capacitaResidua;
 				for (Arco a : camminoAumentante.archi) {
 					if(g.archi.contains(a)) {
 						Arco uv = g.getArco(a.getSorgente(), a.getDestinazione());
@@ -181,13 +182,10 @@ import it.univr.Structures.MinHeap;
 						Arco aReverse = grafoResiduo.getArco(a.getDestinazione(), a.getSorgente());
 						aReverse.setCapacitaResidua(aReverse.getCapacitaResidua()+capacitaResidua);
 					}
-					else {
-						Arco vu = g.getArco(a.getDestinazione(), a.getSorgente());
-						vu.setFlusso(vu.getFlusso()- capacitaResidua);
-						System.out.println("ciao");
-					}
 				}
+			
 		}
+			return maxFlow;
 	}
 	public static Grafo creaReteResidua(Grafo grafo) {
 		Grafo grafoResiduo = new GrafoOrientato();

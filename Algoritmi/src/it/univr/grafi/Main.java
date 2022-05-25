@@ -34,8 +34,25 @@ public class Main {
 		grafo.aggiungiArco(e, ef);
 		grafo.aggiungiArco(f, fc);
 		grafo.aggiungiArco(f, fd);
-		AlgoritmiElementari.FordFulkerson(grafo, a, d);
-		System.out.println(grafo);
+		int m =AlgoritmiElementari.FordFulkerson(grafo, a, d);
+		//System.out.println( m);
+		
+		Grafo grafo2 = new GrafoOrientato();
+		grafo2.addNode(a,b,c,d);
+		ab = new Arco(a,b,0,1000000,0,0);
+		Arco ac = new Arco(a,c,0,1000000,0,0);
+		bc = new Arco(b,c,0,1,0,0);
+		cd = new Arco(c,d,0,1000000,0,0);
+		Arco bd = new Arco(b,d,0,1000000,0,0);
+		grafo2.aggiungiArco(a, ab);
+		grafo2.aggiungiArco(a, ac);
+		grafo2.aggiungiArco(b, bc);
+		grafo2.aggiungiArco(b, bd);
+		grafo2.aggiungiArco(c, cd);
+		m = AlgoritmiElementari.FordFulkerson(grafo2, a, d);
+		System.out.println(m);
+		
+		
 	}
 	public static void testBfs() {
 		Grafo grafo = new GrafoOrientato();
