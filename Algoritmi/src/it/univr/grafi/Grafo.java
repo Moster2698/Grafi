@@ -123,4 +123,5 @@ public abstract class Grafo {
 	public List<Arco> getArchi(){
 		return archi;
 	}
+	public  abstract void aggiungiArco(Arco st);
 }

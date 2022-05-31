@@ -4,27 +4,27 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class MinHeap<T extends Comparable<T>> {
+public class MaxHeap<T extends Comparable<T>> {
 	private int heapSize;
 	private T[] heap;
 	private Comparator<T> comparator;
 	//O(nlog n)
 
-	public MinHeap(Comparator<T> comparator,T... varargs) {
+	public MaxHeap(Comparator<T> comparator,T... varargs) {
 		this.comparator = comparator;
 		heap = varargs;
 		heapSize = varargs.length;
 		BuildHeap(varargs);
 	}
-	public MinHeap(T... varargs) {
+	public MaxHeap(T... varargs) {
 		this(null,varargs);
 	}
 	@SuppressWarnings("unchecked")
-	public MinHeap(int length) {
+	public MaxHeap(int length) {
 		heap = (T[])new Comparable[length];
 		heapSize=0;
 	}
-	public MinHeap(int length, Comparator<T> comparator) {
+	public MaxHeap(int length, Comparator<T> comparator) {
 		this(length);
 		this.comparator = comparator;
 	}
@@ -38,20 +38,20 @@ public class MinHeap<T extends Comparable<T>> {
 				HeapifyWithComparator(A, i);
 	}
 	private void HeapifyWithComparable(T[] A,int i) {
-		int l,r,lowest;
+		int l,r,highest;
 		l=2*i+1;
 		r=2*i+2;
-		if(l<heapSize && A[l].compareTo(A[i])<0)
-			lowest=l;
+		if(l<heapSize && A[l].compareTo(A[i])>0)
+			highest=l;
 		else
-			lowest=i;
-		if(r<heapSize && A[r].compareTo(A[lowest])<0)
-			lowest=r;
-		if(lowest!=i) {
+			highest=i;
+		if(r<heapSize && A[r].compareTo(A[highest])>0)
+			highest=r;
+		if(highest!=i) {
 			T tmp=A[i];
-			A[i]=A[lowest];
-			A[lowest]=tmp;
-			HeapifyWithComparable(A, lowest);
+			A[i]=A[highest];
+			A[highest]=tmp;
+			HeapifyWithComparable(A, i);
 		}
 	}
 	private void HeapifyWithComparator(T[] A,int i) {
@@ -61,17 +61,17 @@ public class MinHeap<T extends Comparable<T>> {
 		int l,r,lowest;
 		l=2*i+1;
 		r=2*i+2;
-		if(l<heapSize && comparator.compare(A[l],A[i])<0)
+		if(l<heapSize && comparator.compare(A[l],A[i])>0)
 			lowest=l;
 		else
 			lowest=i;
-		if(r<heapSize && comparator.compare(A[r],A[lowest])<0)
+		if(r<heapSize && comparator.compare(A[r],A[lowest])>0)
 			lowest=r;
 		if(lowest!=i) {
 			T tmp=A[i];
 			A[i]=A[lowest];
 			A[lowest]=tmp;
-			HeapifyWithComparable(A, lowest);
+			HeapifyWithComparator(A, i);
 		}
 	}
 	
@@ -110,7 +110,7 @@ public class MinHeap<T extends Comparable<T>> {
 			BubbleUpWithComparable(i, parent);
 	}
 	private void BubbleUpWithComparable(int i, int parent) {
-		while(i > 0 && heap[i].compareTo(heap[parent])<0) {
+		while(i > 0 && heap[i].compareTo(heap[parent])>0) {
 			T tmp= heap[i];
 			heap[i] = heap[parent];
 			heap[parent] = tmp;
@@ -120,7 +120,7 @@ public class MinHeap<T extends Comparable<T>> {
 	private void BubbleUpWithComparator(int i,int parent) {
 		//Anomalia è che il figlio heap[i] è minore di heap[parent]
 		// i < heap = i-heap < 0
-		while(i > 0 && comparator.compare(heap[i],heap[parent])<0){
+		while(i > 0 && comparator.compare(heap[i],heap[parent])>0){
 			T tmp= heap[i];
 			heap[i] = heap[parent];
 			heap[parent] = tmp;

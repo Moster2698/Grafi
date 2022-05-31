@@ -64,7 +64,7 @@ public class Nodo implements Comparable<Nodo> {
 	}
 	@Override
 	public String toString() {
-		return name;
+		return name + ": " + key;
 	}
 	public int getID() {
 		return id;

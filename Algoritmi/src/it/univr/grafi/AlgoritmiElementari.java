@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
 
+import it.univr.Structures.BinomialHeap;
 import it.univr.Structures.MinHeap;
 
  public class AlgoritmiElementari {
@@ -153,7 +156,22 @@ import it.univr.Structures.MinHeap;
 				}
 			}
 		}
-		printMstPrim(g);
+	}
+	public static void mstKruskal(Grafo g) {
+	List<Nodo> disjoinedSets = new LinkedList<Nodo>();
+	for(Nodo n : g.getVertici()) 
+		disjoinedSets.add(n);
+	List<Arco> archi = g.getArchi();
+	archi.sort(new Comparator<Arco>() {
+
+		@Override
+		public int compare(Arco o1, Arco o2) {
+			return o1.getPeso()-o2.getPeso();
+		}
+	});
+	for(Arco a : archi) {
+		
+	}
 	}
 	public static int FordFulkerson(Grafo g, Nodo s, Nodo t) {
 		int maxFlow=0;
@@ -186,6 +204,33 @@ import it.univr.Structures.MinHeap;
 			
 		}
 			return maxFlow;
+	}
+	public static void Djikstra(Grafo g,Nodo r) {
+		MinHeap<Nodo> q = new MinHeap<Nodo>(g.getVertici().size() ,new Comparator<Nodo>() {	
+			@Override
+			public int compare(Nodo o1, Nodo o2) {
+				return o1.key - o2.key;
+			}
+		});
+		for(Nodo v : g.getVertici()) {
+			v.key = 200000000;
+			v.setNodeParent(null);
+			q.Insert(v);
+		}
+		r.key = 0;
+		Set<Nodo> nodi = new TreeSet<Nodo>();
+		while(!q.isEmpty()) {
+			Nodo u  = q.ExtractMin();
+			nodi.add(u);
+			List<Nodo> verticiAdiacenti = g.getAdjLinkedList(u);
+			for(Nodo v : verticiAdiacenti) {
+				int pesoArco = g.peso(u, v);
+				if(((pesoArco + u.key) < v.key)) {
+					v.setNodeParent(u);
+					v.key= pesoArco + u.key;
+				}
+			}
+		}
 	}
 	public static Grafo creaReteResidua(Grafo grafo) {
 		Grafo grafoResiduo = new GrafoOrientato();

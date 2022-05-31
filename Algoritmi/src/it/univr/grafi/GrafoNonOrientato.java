@@ -32,5 +32,10 @@ public class GrafoNonOrientato extends Grafo {
 		archi.add(a);
 		grafo.get(parent).add(a);
 	}
+	@Override
+	public void aggiungiArco(Arco st) {
+		aggiungiArco(st.getSorgente(),st);
+		
+	}
 
 }

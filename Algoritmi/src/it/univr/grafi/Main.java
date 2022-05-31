@@ -3,7 +3,8 @@ package it.univr.grafi;
 public class Main {
 	
 	public static void main(String[] args) {
-		testFF();
+		testDjikstra();
+		TestMst();
 	}
 	
 	public static void testFF() {
@@ -51,8 +52,35 @@ public class Main {
 		grafo2.aggiungiArco(c, cd);
 		m = AlgoritmiElementari.FordFulkerson(grafo2, a, d);
 		System.out.println(m);
-		
-		
+	}
+	public static void testDjikstra() {
+		Grafo grafo = new GrafoOrientato();
+		Nodo s = new Nodo("s");
+		Nodo t = new Nodo("t");
+		Nodo x = new Nodo("x");
+		Nodo y = new Nodo("y");
+		Nodo z = new Nodo("z");
+		grafo.addNode(s,t,x,y,z);
+		Arco st = new Arco(s, t, 10);
+		Arco tx = new Arco(t, x, 1);
+		Arco ty = new Arco(t, y, 2);
+		Arco xz = new Arco(x, z, 4);
+		Arco sy = new Arco(s, y, 5);
+		Arco yt = new Arco(y, t, 3);
+		Arco yx = new Arco(y, x, 9);
+		Arco yz = new Arco(y, z, 2);
+		Arco zx = new Arco(z,x,6);
+		grafo.aggiungiArco(st);
+		grafo.aggiungiArco(tx);
+		grafo.aggiungiArco(ty);
+		grafo.aggiungiArco(xz);
+		grafo.aggiungiArco(sy);
+		grafo.aggiungiArco(yt);
+		grafo.aggiungiArco(yx);
+		grafo.aggiungiArco(yz);
+		grafo.aggiungiArco(zx);
+		AlgoritmiElementari.Djikstra(grafo, s);
+		System.out.println(grafo.getVertici());
 	}
 	public static void testBfs() {
 		Grafo grafo = new GrafoOrientato();
@@ -87,41 +115,33 @@ public class Main {
 	
 	}
 	public static void TestMst() {
-		Grafo grafo = new GrafoNonOrientato();
-		Nodo a = new Nodo("a");
-		Nodo b = new Nodo("b");
-		Nodo c = new Nodo("c");
-		Nodo d = new Nodo("d");
-		Nodo e = new Nodo("e");
-		Nodo f = new Nodo("f");
-		Nodo g = new Nodo("g");
-		Nodo h = new Nodo("h");
-		Nodo i = new Nodo("i");
+		Grafo grafo = new GrafoOrientato();
+		Nodo s = new Nodo("s");
+		Nodo t = new Nodo("t");
+		Nodo x = new Nodo("x");
+		Nodo y = new Nodo("y");
+		Nodo z = new Nodo("z");
+		grafo.addNode(s,t,x,y,z);
+		Arco st = new Arco(s, t, 10);
+		Arco tx = new Arco(t, x, 1);
+		Arco ty = new Arco(t, y, 2);
+		Arco xz = new Arco(x, z, 4);
+		Arco sy = new Arco(s, y, 5);
+		Arco yt = new Arco(y, t, 3);
+		Arco yx = new Arco(y, x, 9);
+		Arco yz = new Arco(y, z, 2);
+		Arco zx = new Arco(z,x,6);
+		grafo.aggiungiArco(st);
+		grafo.aggiungiArco(tx);
+		grafo.aggiungiArco(ty);
+		grafo.aggiungiArco(xz);
+		grafo.aggiungiArco(sy);
+		grafo.aggiungiArco(yt);
+		grafo.aggiungiArco(yx);
+		grafo.aggiungiArco(yz);
+		grafo.aggiungiArco(zx);
 		
-		grafo.addNode(a,b,c,d,e,f,g,h,i);
-		
-		grafo.aggiungiArco(a, b, 4);
-		grafo.aggiungiArco(a, h, 8);
-		
-		grafo.aggiungiArco(b, c, 8);
-		grafo.aggiungiArco(b, h, 11);
-		
-		grafo.aggiungiArco(c, d, 7);
-		grafo.aggiungiArco(c, i, 2);
-		grafo.aggiungiArco(c, f, 4);
-		
-		grafo.aggiungiArco(d, e, 9);
-		grafo.aggiungiArco(d, f, 14);
-		
-		grafo.aggiungiArco(e, f, 10);
-		
-		grafo.aggiungiArco(f, g, 2);
-		
-		grafo.aggiungiArco(g, h, 1);
-		grafo.aggiungiArco(g, i, 6);
-		
-		grafo.aggiungiArco(h, i, 7);
-		
-		AlgoritmiElementari.BFS(grafo, a);
+		AlgoritmiElementari.MstPrim(grafo, s);
+		System.out.println(grafo.getVertici());
 	}
 }

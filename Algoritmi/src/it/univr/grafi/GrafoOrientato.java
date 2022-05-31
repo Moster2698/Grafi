@@ -37,6 +37,9 @@ public class GrafoOrientato extends Grafo {
 	public void aggiungiArco(Nodo sorgente, Nodo destinazione) {
 		aggiungiArco(sorgente, destinazione,0);
 	}
+	public void aggiungiArco(Arco a) {
+		aggiungiArco(a.getSorgente(),a.getDestinazione(),a.getPeso());
+	}
 	public void aggiungiArco(Nodo parent, Arco a) {
 		if(grafo.containsKey(parent)) {
 			grafo.get(parent).add(a);
